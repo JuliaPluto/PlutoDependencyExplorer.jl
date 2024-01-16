@@ -23,17 +23,17 @@ function MultipleDefinitionsError(topology::NotebookTopology, cell::AbstractCell
 	)
 end
 
-const hint1 = "Combine all definitions into a single reactive cell using a `begin ... end` block."
+const _hint1 = "Combine all definitions into a single reactive cell using a `begin ... end` block."
 
 # TODO: handle case when cells are in cycle, but variables aren't
 function showerror(io::IO, cre::CyclicReferenceError)
 	print(io, "Cyclic references among ")
 	println(io, join(cre.syms, ", ", " and "))
-	print(io, hint1)
+	print(io, _hint1)
 end
 
 function showerror(io::IO, mde::MultipleDefinitionsError)
 	print(io, "Multiple definitions for ")
 	println(io, join(mde.syms, ", ", " and "))
-	print(io, hint1) # TODO: hint about mutable globals
+	print(io, _hint1) # TODO: hint about mutable globals
 end
