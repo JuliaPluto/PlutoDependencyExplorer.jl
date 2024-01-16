@@ -33,6 +33,12 @@ julia> order.runnable
  SimpleCell("x + y")
 ```
 
+## ExpressionExplorer.jl
+
+PlutoDependencyExplorer.jl uses the low-level package [ExpressionExplorer.jl](https://github.com/JuliaPluto/expressionexplorer.jl) to find the assignments and references of each cell. PlutoDependencyExplorer uses this information to build a dependency graph between cells (i.e. a `NotebookTopology`), which can be used to find the order to run them in (a `TopologicalOrder`).
+
+If you are interested in **ordering a list of expressions** in execution order (the order that Pluto runs cells in), then use PlutoDependencyExplorer.jl. If you just want to know which variables are assigned or referenced in a **single expression**, use ExpressionExplorer.jl.
+
 # Public API
 
 The public API is:
