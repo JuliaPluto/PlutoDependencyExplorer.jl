@@ -2,7 +2,7 @@
 
 This package contains Pluto's dependency sorting algorithm. Given a list of cell codes, PlutoDependencyExplorer can tell you in which order these cells should run. For example:
 
-```julia-repl
+```julia
 julia> import PlutoDependencyExplorer as PDE
 
 julia> struct SimpleCell <: PDE.AbstractCell
