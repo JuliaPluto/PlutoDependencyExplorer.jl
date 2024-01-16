@@ -24,7 +24,20 @@ function ExprAnalysisCache(old_cache::ExprAnalysisCache; new_properties...)
     ExprAnalysisCache(;properties...)
 end
 
-"The (information needed to create the) dependency graph of a notebook. Cells are linked by the names of globals that they define and reference. 🕸"
+"""
+The (information needed to create the) dependency graph of a notebook. Cells are linked by the names of globals that they define and reference. 🕸
+
+`NotebookTopology` is an immutable structure. In Pluto's case, where the notebook is constantly changing (being edited), it functions as a *snapshot* of the notebook's reactive state at a current time.
+
+This also means that the `NotebookTopology` cannot be mutated to reflect changes in the notebook. This is done by the `update_topology` function, which takes an old topology and calculates the next one.
+
+# Fields
+- `nodes` is really the **dependency graph**. For each cell, it stores the dependency links.
+- `codes` is a snapshot of the cell codes at the time when the `topology` was calculated, including some metadata that is used by Pluto.
+- `cell_order` is a snapshot of the cell order at the time when the `topology` was calculated.
+- `unresolved_cells` contains cells that still have unresolved macro calls
+- `disabled_cells` contains cells that are disabled (used by Pluto)
+"""
 Base.@kwdef struct NotebookTopology{C <: AbstractCell}
     nodes::ImmutableDefaultDict{C,ReactiveNode}=ImmutableDefaultDict{C,ReactiveNode}(ReactiveNode)
     codes::ImmutableDefaultDict{C,ExprAnalysisCache}=ImmutableDefaultDict{C,ExprAnalysisCache}(ExprAnalysisCache)

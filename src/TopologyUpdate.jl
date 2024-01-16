@@ -6,7 +6,10 @@ import ExpressionExplorer: SymbolsState, FunctionNameSignaturePair
 """
 ```julia
 function updated_topology(
-	old_topology::NotebookTopology{C}, notebook_cells::Iterable{C}, updated_cells::Iterable{C}; 
+	old_topology::NotebookTopology{C}, 
+	notebook_cells::Iterable{C}, 
+	updated_cells::Iterable{C}; 
+
 	get_code_str::Function, 
 	get_code_expr::Function, 
 	get_cell_disabled::Function=c->false,
@@ -15,9 +18,9 @@ function updated_topology(
 
 Return a copy of `old_topology`, but with new reactivity information from `updated_cells` taken into account. This function is used when cell code changes.
 
-`notebook_cells` should contain all cells in the reactive document.
+`notebook_cells` should contain all cells in the reactive document. `updated_cells` contains the cells that changed (e.g. because they were edited).
 
-The functions `get_code_str` and `get_code_expr` should return the code string and parsed expression for a given cell. `get_cell_disabled` should return `true` if a cell is disabled, defaults to `false`.
+The functions `get_code_str` and `get_code_expr` should return the code string and parsed expression for a given cell. `get_cell_disabled` should return `true` if a cell is disabled, defaults to `false`. 
 """
 function updated_topology(
 	old_topology::NotebookTopology{C}, notebook_cells, updated_cells; 
