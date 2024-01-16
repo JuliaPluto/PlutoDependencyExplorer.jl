@@ -33,6 +33,50 @@ julia> order.runnable
  SimpleCell("x + y")
 ```
 
+# Public API
+
+The public API is:
+
+```
+AbstractCell
+NotebookTopology
+ExprAnalysisCache
+all_cells
+updated_topology
+exclude_roots
+
+is_disabled
+is_resolved
+set_unresolved
+is_soft_edge
+
+topological_order
+TopologicalOrder
+
+cell_precedence_heuristic
+DEFAULT_PRECEDENCE_HEURISTIC
+where_assigned
+where_referenced
+
+ReactivityError
+CyclicReferenceError
+MultipleDefinitionsError
+
+ImmutableDefaultDict
+ImmutableSet
+ImmutableVector
+setdiffkeys
+delete_unsafe!
+
+ExpressionExplorerExtras
+ExpressionExplorerExtras.can_be_function_wrapped
+ExpressionExplorerExtras.can_macroexpand
+ExpressionExplorerExtras.can_macroexpand_no_bind
+ExpressionExplorerExtras.collect_implicit_usings
+ExpressionExplorerExtras.maybe_macroexpand_pluto
+ExpressionExplorerExtras.pretransform_pluto
+```
+
 # Contributing and testing
 
 To work on this package, clone both the Pluto.jl and PlutoDependencyExplorer.jl repositories to your local drive. Then:
