@@ -1,0 +1,17 @@
+name = "PlutoDependencyExplorer"
+uuid = "21656369-7473-754a-2065-74616d696c43"
+license = "MIT"
+authors = ["Paul Berg <paul@plutojl.org>", "Fons van der Plas <fons@plutojl.org>"]
+version = "1.0.0"
+
+[deps]
+ExpressionExplorer = "21656369-7473-754a-2065-74616d696c43"
+
+[compat]
+julia = "1.6"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
