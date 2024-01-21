@@ -2,7 +2,7 @@ name = "PlutoDependencyExplorer"
 uuid = "72656b73-756c-7461-726b-72656b6b696b"
 license = "MIT"
 authors = ["Paul Berg <paul@plutojl.org>", "Fons van der Plas <fons@plutojl.org>"]
-version = "1.0.1"
+version = "1.0.2"
 
 [deps]
 ExpressionExplorer = "21656369-7473-754a-2065-74616d696c43"
