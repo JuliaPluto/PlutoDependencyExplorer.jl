@@ -39,49 +39,8 @@ PlutoDependencyExplorer.jl uses the low-level package [ExpressionExplorer.jl](ht
 
 If you are interested in **ordering a list of expressions** in execution order (the order that Pluto runs cells in), then use PlutoDependencyExplorer.jl. If you just want to know which variables are assigned or referenced in a **single expression**, use ExpressionExplorer.jl.
 
-# Public API
-
-The public API is:
-
-```
-AbstractCell
-NotebookTopology
-ExprAnalysisCache
-all_cells
-updated_topology
-exclude_roots
-
-is_disabled
-is_resolved
-set_unresolved
-is_soft_edge
-
-topological_order
-TopologicalOrder
-
-cell_precedence_heuristic
-DEFAULT_PRECEDENCE_HEURISTIC
-where_assigned
-where_referenced
-
-ReactivityError
-CyclicReferenceError
-MultipleDefinitionsError
-
-ImmutableDefaultDict
-ImmutableSet
-ImmutableVector
-setdiffkeys
-delete_unsafe!
-
-ExpressionExplorerExtras
-ExpressionExplorerExtras.can_be_function_wrapped
-ExpressionExplorerExtras.can_macroexpand
-ExpressionExplorerExtras.can_macroexpand_no_bind
-ExpressionExplorerExtras.collect_implicit_usings
-ExpressionExplorerExtras.maybe_macroexpand_pluto
-ExpressionExplorerExtras.pretransform_pluto
-```
+# Docs
+Take a look at the [**Documentation →**](https://plutojl.org/en/docs/plutodependencyexplorer/)
 
 # Contributing and testing
 
