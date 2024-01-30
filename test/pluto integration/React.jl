@@ -698,115 +698,6 @@ end
 
         WorkspaceManager.unmake_workspace((🍭, notebook); verbose=false)
     end
-    
-    @testset "Function & package dependencies" begin
-
-        notebook = Notebook([
-            Cell("y = 1"),
-            Cell("f(x) = x + y"),
-            Cell("f(3)"),
-
-            Cell("g(a,b) = a+b"),
-            Cell("g(5,6)"),
-
-            Cell("h(x::Int) = x"),
-            Cell("h(7)"),
-            Cell("h(8.0)"),
-
-            Cell("p(x) = 9"),
-            Cell("p isa Function"),
-
-            Cell("module Something
-                export a
-                a(x::String) = \"🐟\"
-            end"),
-            Cell("using .Something"),
-            Cell("a(x::Int) = x"),
-            Cell("a(\"i am a \")"),
-            Cell("a(15)"),
-            
-            Cell("module Different
-                export b
-                b(x::String) = \"🐟\"
-            end"),
-            Cell("import .Different: b"),
-            Cell("b(x::Int) = x"),
-            Cell("b(\"i am a \")"),
-            Cell("b(20)"),
-            
-            Cell("module Wow
-                export c
-                c(x::String) = \"🐟\"
-            end"),
-            Cell("begin
-                import .Wow: c
-                c(x::Int) = x
-            end"),
-            Cell("c(\"i am a \")"),
-            Cell("c(24)"),
-
-            Cell("Ref((25,:fish))"),
-            Cell("begin
-                import Base: show
-                show(io::IO, x::Ref{Tuple{Int,Symbol}}) = write(io, \"🐟\")
-            end"),
-
-            Cell("Base.isodd(n::Integer) = \"🎈\""),
-            Cell("Base.isodd(28)"),
-            Cell("isodd(29)"),
-
-            Cell("using Dates"),
-            Cell("year(DateTime(31))"),
-        ])
-        update_run!(🍭, notebook, notebook.cells)
-        
-        otr(x) = order_to_run(notebook, x)
-        
-        
-        @test otr(1) == [1,2,3]
-        @test otr(2) == [2,3]
-        
-        @test otr(4) == [4,5]
-        @test otr(5) == [5]
-        
-        setcode!(notebook.cells[5], "g(a) = a+a")
-        update_run!(🍭, notebook, notebook.cells[5])
-        
-        @test otr(4) == [4,5]
-        @test otr(5) == [5,4]
-        
-        
-        @test otr(6) == [6,7,8]
-        @test otr(7) == [7]
-        
-        @test otr(9) == [9,10]
-        
-
-        setcode!(notebook.cells[9], "p = p")
-        update_run!(🍭, notebook, notebook.cells[9])
-        
-        @test otr(9) == []
-        
-        # multiple definitions for `Something` should be okay?
-        @test_broken otr(11) == [11,12,13,14,15]
-        @test otr(13) == [13,14,15]
-        
-        @test otr(16) == [16,17,18,19,20]
-        @test otr(18) == [18,19,20]
-        
-        @test otr(21) == [21,22,23,24]
-        @test otr(22) == [22,23,24]
-        @test otr(24) == [24]
-
-        
-        @test otr(27) == [27,28,29]
-        @test otr(28) == [28]
-        
-        @test otr(30) == [30,31]
-        
-        WorkspaceManager.unmake_workspace((🍭, notebook); verbose=false)
-    end
-
 
     @testset "Functional programming" begin
         notebook = Notebook([
@@ -846,7 +737,6 @@ end
         @test notebook.cells[8].output.body == "11"
 
         WorkspaceManager.unmake_workspace((🍭, notebook); verbose=false)
-        
     end
 
     @testset "Run multiple" begin

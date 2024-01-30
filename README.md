@@ -46,9 +46,15 @@ Take a look at the [**Documentation →**](https://plutojl.org/en/docs/plutodepe
 
 To work on this package, clone both the Pluto.jl and PlutoDependencyExplorer.jl repositories to your local drive. Then:
 
-1. Enter the Pluto.jl package directory: `~ cd ~/Documents/Pluto.jl/`
-2. Open Julia in this environment: `julia --project`
-3. In the Pluto.jl package, develop the PlutoDependencyExplorer package: `(Pluto.jl) pkg> dev ~/Documents/PlutoDependencyExplorer.jl/`
-4. Restart Julia. In your global environment, develop the Pluto.jl package `(@1.10) pkg> dev ~/Documents/Pluto.jl`
-5. Also develop: `(@1.10) pkg> dev ~/Documents/PlutoDependencyExplorer.jl`
-6. You can now run or test Pluto, and it will use your local copy of PlutoDependencyExplorer.
+1. In your global environment, develop the Pluto and PlutoDependencyExplorer packages: 
+    `(@1.10) pkg> dev ~/Documents/Pluto.jl`
+    `(@1.10) pkg> dev ~/Documents/PlutoDependencyExplorer.jl`
+2. You can now run or `Pkg.test()` Pluto, and it will use your local copy of PlutoDependencyExplorer.
+
+### Advanced: making a change to Pluto and PlutoDependencyExplorer at the same time.
+
+If you are working on a change to PlutoDependencyExplorer that requires a matching change in Pluto, then you open a branch/PR on both repositories. 
+
+We need to tell PlutoDependencyExplorer which version of Pluto to use. To do this, edit the file `PlutoDependencyExplorer.jl/test/pluto integration/DEV EDIT ME pluto pkg source.jl`.
+
+
