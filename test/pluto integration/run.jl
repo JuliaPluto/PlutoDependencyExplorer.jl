@@ -2,6 +2,8 @@ import Pkg
 
 pkg_source = include("./DEV EDIT ME pluto pkg source.jl")
 
+@info "PlutoDependencyExplorer: importing Pluto from" pkg_source
+
 if pkg_source !== nothing
     
     is_dev = if hasfield(typeof(pkg_source), :rev)
