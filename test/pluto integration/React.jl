@@ -1,9 +1,11 @@
 using Test
 import Pluto: Configuration, Notebook, ServerSession, ClientSession, update_run!, Cell, WorkspaceManager
 import Pluto.Configuration: Options, EvaluationOptions
-
-
 import PlutoDependencyExplorer: CyclicReferenceError, MultipleDefinitionsError
+
+### MORE TESTS ARE IN PLUTO.jL
+# The tests on the Pluto side are tests that rely more heavily on what Pluto implements on top of PlutoDependencyExplorer.
+# The tests in PlutoDependencyExplorer are focus in *reactive ordering*.
 
 order_to_run(notebook, id::Integer) = order_to_run(notebook, [id])
 function order_to_run(notebook, idx)
