@@ -24,6 +24,7 @@ jobs:
                 os: [ubuntu-latest]
                 package:
                     - { user: fonsp, repo: Pluto.jl }
+                    - { user: JuliaPluto, repo: PlutoSliderServer.jl }
 
         steps:
             - uses: actions/checkout@v3
