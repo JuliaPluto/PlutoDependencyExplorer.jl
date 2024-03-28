@@ -39,7 +39,9 @@ function updated_topology(
 		new_code_str = get_code_str(cell)
 		
 		if old_code.code !== new_code_str
-			parsedcode = Expr(:block, get_code_expr(cell))
+			parsedcode = let x = get_code_expr(cell)
+				x isa Expr ? x : Expr(:block, x)
+			end
 			new_code = updated_codes[cell] = ExprAnalysisCache(new_code_str, parsedcode)
 			new_reactive_node = ExpressionExplorer.compute_reactive_node(ExpressionExplorerExtras.pretransform_pluto(new_code.parsedcode))
 
