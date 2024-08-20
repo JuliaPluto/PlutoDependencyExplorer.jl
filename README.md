@@ -46,10 +46,11 @@ Take a look at the [**Documentation →**](https://plutojl.org/en/docs/plutodepe
 
 To work on this package, clone both the Pluto.jl and PlutoDependencyExplorer.jl repositories to your local drive. Then:
 
-1. In your global environment, develop the Pluto and PlutoDependencyExplorer packages: 
+1. In your global environment (or another one), develop the Pluto and PlutoDependencyExplorer packages: 
     `(@1.10) pkg> dev ~/Documents/Pluto.jl`
     `(@1.10) pkg> dev ~/Documents/PlutoDependencyExplorer.jl`
-2. You can now run or `Pkg.test()` Pluto, and it will use your local copy of PlutoDependencyExplorer.
+2. You can `(@1.10) pkg> test PlutoDependencyExplorer` to run the tests
+3. You can also run Pluto, or `(@1.10) pkg> test Pluto`, and it will use your local copy of PlutoDependencyExplorer. This lets you test how your changes to PlutoDependencyExplorer integrate into Pluto.
 
 ### Advanced: making a change to Pluto and PlutoDependencyExplorer at the same time.
 

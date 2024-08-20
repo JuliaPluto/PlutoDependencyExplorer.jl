@@ -23,12 +23,12 @@ jobs:
             # Without setting this, a failing test cancels all others
             fail-fast: false
             matrix:
-                julia-version: ['1.6', '1.10', 'nightly'] # "~1.11.0-0", 
+                julia-version: ["1.6", "1", "~1.11.0-0", "nightly"]
                 os: [ubuntu-latest]
 
         steps:
             # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v4
 
             # Makes thes `julia` command available
             - uses: julia-actions/setup-julia@v1
