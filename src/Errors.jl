@@ -22,7 +22,6 @@ function MultipleDefinitionsError(topology::NotebookTopology, cell::AbstractCell
 	df(c) = topology.nodes[c].funcdefs_with_signatures
 	ddf(c) = topology.nodes[c].definitions ∪ topology.nodes[c].funcdefs_without_signatures
 	
-	@info "huh" dd(cell) df(cell)
 	MultipleDefinitionsError(
 		union!(
 			Set{Symbol}(),
