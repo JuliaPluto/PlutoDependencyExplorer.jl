@@ -5,7 +5,7 @@ import PlutoDependencyExplorer: CyclicReferenceError, MultipleDefinitionsError
 
 ### MORE TESTS ARE IN PLUTO.jL
 # The tests on the Pluto side are tests that rely more heavily on what Pluto implements on top of PlutoDependencyExplorer.
-# The tests in PlutoDependencyExplorer are focus in *reactive ordering*.
+# The tests in PlutoDependencyExplorer focus on *reactive ordering*.
 
 order_to_run(notebook, id::Integer) = order_to_run(notebook, [id])
 function order_to_run(notebook, idx)
@@ -39,7 +39,7 @@ end
         @test notebook.cells[1] |> noerror
         @test notebook.cells[2] |> noerror
     
-    # https://github.com/fonsp/Pluto.jl/issues/26
+        # https://github.com/fonsp/Pluto.jl/issues/26
         setcode!(notebook.cells[1], "x = 1")
         update_run!(🍭, notebook, notebook.cells[1])
         setcode!(notebook.cells[2], "x")
@@ -376,6 +376,19 @@ end
                     e13=27
                     e14
                 end"""),
+                
+            Cell("""
+            begin
+                ppp = 28
+                Base.zero(::YAY) = 28
+            end
+            """),
+            Cell("""
+            begin
+                ppp = 29
+                Base.zero(::NOO) = 29
+            end
+            """),
         ])
 
         update_run!(🍭, notebook, notebook.cells[1:4])
@@ -496,7 +509,7 @@ end
         update_run!(🍭, notebook, notebook.cells[20])
         @test occursinerror("Multiple definitions", notebook.cells[19])
         @test occursinerror("Multiple definitions", notebook.cells[20])
-        @test occursinerror("asdf", notebook.cells[20])
+        @test occursinerror("asdf", notebook.cells[19])
         @test occursinerror("asdf", notebook.cells[20])
         @test notebook.cells[21].errored == true
         @test notebook.cells[22].errored == true
@@ -535,6 +548,24 @@ end
         setcode!(notebook.cells[23], "@assert !any(isdefined.([@__MODULE__], [Symbol(:e,i) for i in 1:14]))")
         update_run!(🍭, notebook, notebook.cells[23])
         @test notebook.cells[23] |> noerror
+        
+        update_run!(🍭, notebook, notebook.cells[28:29])
+        @test occursinerror("Multiple definitions", notebook.cells[28])
+        @test occursinerror("Multiple definitions", notebook.cells[29])
+        @test occursinerror("ppp", notebook.cells[28])
+        @test occursinerror("ppp", notebook.cells[29])
+        @test !occursinerror("zero", notebook.cells[28])
+        @test !occursinerror("zero", notebook.cells[29])
+        
+        setcode!(notebook.cells[29], replace(notebook.cells[29].code, "NOO" => "YAY"))
+        update_run!(🍭, notebook, notebook.cells[29])
+        @test occursinerror("Multiple definitions", notebook.cells[28])
+        @test occursinerror("Multiple definitions", notebook.cells[29])
+        @test occursinerror("ppp", notebook.cells[28])
+        @test occursinerror("ppp", notebook.cells[29])
+        @test occursinerror("zero", notebook.cells[28])
+        @test occursinerror("zero", notebook.cells[29])
+        
 
         WorkspaceManager.unmake_workspace((🍭, notebook); verbose=false)
 
