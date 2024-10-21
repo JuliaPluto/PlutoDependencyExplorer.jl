@@ -21,6 +21,8 @@ function MultipleDefinitionsError(topology::NotebookTopology, cell::AbstractCell
 	MultipleDefinitionsError(
 		union((defs(cell) ∩ defs(c) for c in competitors)...)
 	)
+	
+	error(123)
 end
 
 const _hint1 = "Combine all definitions into a single reactive cell using a `begin ... end` block."
