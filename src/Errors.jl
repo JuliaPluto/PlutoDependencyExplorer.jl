@@ -17,9 +17,19 @@ end
 
 function MultipleDefinitionsError(topology::NotebookTopology, cell::AbstractCell, all_definers)
 	competitors = setdiff(all_definers, [cell])
-	defs(c) = topology.nodes[c].funcdefs_without_signatures ∪ topology.nodes[c].definitions
+
+	dd(c) = topology.nodes[c].definitions
+	df(c) = topology.nodes[c].funcdefs_with_signatures
+	ddf(c) = topology.nodes[c].definitions ∪ topology.nodes[c].funcdefs_without_signatures
+	
+	@info "huh" dd(cell) df(cell)
 	MultipleDefinitionsError(
-		union((defs(cell) ∩ defs(c) for c in competitors)...)
+		union!(
+			Set{Symbol}(),
+			(dd(cell) ∩ ddf(c) for c in competitors)...,
+			(ddf(cell) ∩ dd(c) for c in competitors)...,
+			((funcdef.name.joined for funcdef in df(cell) ∩ df(c)) for c in competitors)...,
+		)
 	)
 end
 
