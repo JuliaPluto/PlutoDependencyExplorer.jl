@@ -18,9 +18,10 @@ abstract type AbstractCell end
 include("./data structures.jl")
 include("./ExpressionExplorer.jl")
 include("./Topology.jl")
+include("./imports.jl")
 include("./Errors.jl")
 include("./TopologicalOrder.jl")
 include("./topological_order.jl")
 include("./TopologyUpdate.jl")
 
-end
+end 
