@@ -3,44 +3,40 @@
 the PackageSpec written in this file will be used to import Pluto during these tests.
 
 # DO I NEED IT?
-When developing PlutoDependencyExplorer, and you don't need matching changes from Pluto, then leave this file empty.
+When developing PlutoDependencyExplorer, and you don't need matching changes from Pluto, then leave this file as-is.
 
-In the special case that you need to make changes to PlutoDependencyExplorer and Pluto at the same time, you can use this file.
+In the special case that you need to make changes to PlutoDependencyExplorer and Pluto at the same time, you can edit this file to test those changes.
 
 
 # HOW TO USE IT
-## Step 1:
-If this change needs a matching Pluto change, set:
-```julia
-i_need_a_special_pluto_branch = true
-```
-and continue to Step 2. Otherwise, set it to `false` and you're done.
-
-
-## Step 2:
-
+Uncomment the PackageSpec that best matches your needs.
 
 """
 
 
+function get_spec()
 
-i_need_a_special_pluto_branch = false
 
+    # DEFAULT: use the latest development Pluto
+    Pkg.PackageSpec(
+        name="Pluto",
+        rev="main",
+    )
 
-if i_need_a_special_pluto_branch
-    if get(ENV, "CI", "🍄") == "true"
-        Pkg.PackageSpec(
-            name="Pluto",
-            rev="PlutoDependencyExplorer-split",
-        )
-    else
-        Pkg.PackageSpec(
-            name="Pluto",
-            path="/Users/fons/Documents/Pluto.jl"
-        )
-    end
-else
-    nothing
+    # EXAMPLE: use a specific branch of Pluto
+    # Pkg.PackageSpec(
+    #     name="Pluto",
+    #     rev="something-different",
+    # )
+
+    # LOCAL DEVELOPMENT: use a local copy of Pluto
+    # Pkg.PackageSpec(
+    #     name="Pluto",
+    #     path="/Users/fons/Documents/Pluto.jl"
+    # )
+
 end
 
 
+
+get_spec()
