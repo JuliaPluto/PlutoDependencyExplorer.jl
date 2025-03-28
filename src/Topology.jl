@@ -77,7 +77,7 @@ Returns a new topology as if `topology` was created with all code for `roots_to_
 being empty, preserving disabled cells and cell order.
 """
 function exclude_roots(topology::NotebookTopology{C}, cells::Vector{C}) where C <: AbstractCell
-    NotebookTopology{C}(
+    isempty(cells) ? topology : NotebookTopology{C}(
         nodes=setdiffkeys(topology.nodes, cells),
         codes=setdiffkeys(topology.codes, cells),
         unresolved_cells=ImmutableSet{C}(setdiff(topology.unresolved_cells.c, cells); skip_copy=true),
