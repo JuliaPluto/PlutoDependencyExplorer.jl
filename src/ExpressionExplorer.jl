@@ -39,19 +39,22 @@ function pretransform_pluto(ex)
         if maybe_expanded === ex
             # we were not able to expand statically
             for arg in ex.args[begin+1:end]
-                arg_transformed = pretransform_pluto(arg)
-                macro_arg_symstate = ExpressionExplorer.compute_symbols_state(arg_transformed)
-                
-                # When this macro has something special inside like `Pkg.activate()`, we're going to make sure that ExpressionExplorer treats it as normal code, not inside a macrocall. (so these heuristics trigger later)
-                if arg isa Expr && macro_has_special_heuristic_inside(symstate = macro_arg_symstate, expr = arg_transformed)
-                    # then the whole argument expression should be added
-                    push!(to_add, arg_transformed)
-                else
-                    for fn in macro_arg_symstate.macrocalls
-                        push!(to_add, Expr(:macrocall, fn))
-                        # fn is a FunctionName
-                        # normally this would not be a legal expression, but ExpressionExplorer handles it correctly so it's all cool
+                try
+                    arg_transformed = pretransform_pluto(arg)
+                    macro_arg_symstate = ExpressionExplorer.compute_symbols_state(arg_transformed)
+                    
+                    # When this macro has something special inside like `Pkg.activate()`, we're going to make sure that ExpressionExplorer treats it as normal code, not inside a macrocall. (so these heuristics trigger later)
+                    if arg isa Expr && macro_has_special_heuristic_inside(symstate = macro_arg_symstate, expr = arg_transformed)
+                        # then the whole argument expression should be added
+                        push!(to_add, arg_transformed)
+                    else
+                        for fn in macro_arg_symstate.macrocalls
+                            push!(to_add, Expr(:macrocall, fn))
+                            # fn is a FunctionName
+                            # normally this would not be a legal expression, but ExpressionExplorer handles it correctly so it's all cool
+                        end
                     end
+                catch
                 end
             end
             
