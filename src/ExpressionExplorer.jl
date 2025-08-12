@@ -54,7 +54,8 @@ function pretransform_pluto(ex)
                             # normally this would not be a legal expression, but ExpressionExplorer handles it correctly so it's all cool
                         end
                     end
-                catch
+                catch e
+                    @debug "Error in pretransform_pluto" ex exception=(e, catch_backtrace())
                 end
             end
             
