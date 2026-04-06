@@ -33,10 +33,9 @@ In those cases, we want most accurate result possible. Our extra needs are:
 """
 function pretransform_pluto(ex)
     if Meta.isexpr(ex, :macrocall)
-        to_add = Expr[]
-        
         maybe_expanded = maybe_macroexpand_pluto(ex)
         if maybe_expanded === ex
+            to_add = Union{Symbol, Expr}[]
             # we were not able to expand statically
             for arg in ex.args[begin+1:end]
                 try
@@ -53,6 +52,11 @@ function pretransform_pluto(ex)
                             # fn is a FunctionName
                             # normally this would not be a legal expression, but ExpressionExplorer handles it correctly so it's all cool
                         end
+                        # Also surface variable references from macro arguments.
+                        # This allows Pluto to detect dependencies like `UInt2` in `@enumx Turn::UInt2`,
+                        # or `myvar` in `@b myfunction(myvar)`, even when the macro can't be expanded yet.
+                        # We only add references (not definitions/assignments) to avoid false conflicts.
+                        append!(to_add, macro_arg_symstate.references)
                     end
                 catch e
                     @debug "Error in pretransform_pluto" ex exception=(e, catch_backtrace())
