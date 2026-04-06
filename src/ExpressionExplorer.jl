@@ -11,7 +11,7 @@ module Fake
     module PlutoRunner
         using Markdown
         using InteractiveUtils
-        macro bind(def, element)    
+        macro bind(def, element)
             quote
                 global $(esc(def)) = element
             end
@@ -41,7 +41,7 @@ function pretransform_pluto(ex)
                 try
                     arg_transformed = pretransform_pluto(arg)
                     macro_arg_symstate = ExpressionExplorer.compute_symbols_state(arg_transformed)
-                    
+
                     # When this macro has something special inside like `Pkg.activate()`, we're going to make sure that ExpressionExplorer treats it as normal code, not inside a macrocall. (so these heuristics trigger later)
                     if arg isa Expr && macro_has_special_heuristic_inside(symstate = macro_arg_symstate, expr = arg_transformed)
                         # then the whole argument expression should be added
@@ -62,11 +62,11 @@ function pretransform_pluto(ex)
                     @debug "Error in pretransform_pluto" ex exception=(e, catch_backtrace())
                 end
             end
-            
+
             Expr(
                 :block,
                 # the original expression, not expanded. ExpressionExplorer will just explore the name of the macro, and nothing else.
-                ex, 
+                ex,
                 # any expressions that we need to sneakily add
                 to_add...
             )
@@ -74,7 +74,7 @@ function pretransform_pluto(ex)
             Expr(
                 :block,
                 # We were able to expand the macro, so let's recurse on the result.
-                pretransform_pluto(maybe_expanded), 
+                pretransform_pluto(maybe_expanded),
                 # the name of the macro that got expanded
                 Expr(:macrocall, ex.args[1]),
             )
